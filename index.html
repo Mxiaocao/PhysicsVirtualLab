@@ -106,7 +106,8 @@
               <h3>虚拟分光计仪器区</h3>
               <span id="alignmentBadge" class="badge">调节中</span>
             </div>
-            <canvas id="instrumentCanvas" width="860" height="520"></canvas>
+            <div id="threeInstrument" class="three-instrument" aria-label="Three.js 3D 分光计模型"></div>
+            <canvas id="instrumentCanvas" class="canvas-fallback" width="860" height="520"></canvas>
           </div>
 
           <div class="canvas-card view-card">
@@ -229,6 +230,9 @@
   </footer>
 
   <script src="script.js"></script>
+  <script src="./libs/three.min.js"></script>
+  <script src="./libs/OrbitControls.js"></script>
+  <script src="./three-scene.js"></script>
 </body>
 </html>
 
