@@ -1,0 +1,234 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>物理实验虚拟仿真平台 | 分光计实验 MVP</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#home">
+      <span class="brand-mark"></span>
+      <span>物理实验虚拟仿真平台</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#home">首页</a>
+      <a href="#experiments">实验入口</a>
+      <a href="#spectrometer">分光计实验</a>
+      <a href="#project">项目展示</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="hero section">
+      <div class="hero-content">
+        <p class="eyebrow">University Physics Virtual Lab</p>
+        <h1>分光计的调整与使用虚拟仿真实验</h1>
+        <p class="hero-copy">
+          面向大学物理实验教学与创新创业答辩演示，第一版 MVP 支持仪器观察、角度调节、读数记录和顶角计算。
+        </p>
+        <div class="hero-actions">
+          <button class="primary-btn" data-scroll="#spectrometer">开始实验</button>
+          <button class="ghost-btn" data-scroll="#experiments">查看实验列表</button>
+        </div>
+      </div>
+      <div class="hero-dashboard" aria-label="平台能力概览">
+        <div>
+          <strong>Canvas 仪器</strong>
+          <span>简化分光计示意与光路反馈</span>
+        </div>
+        <div>
+          <strong>实时读数</strong>
+          <span>左游标 L / 右游标 R 动态显示</span>
+        </div>
+        <div>
+          <strong>实验数据</strong>
+          <span>多组记录、计算、误差分析</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="experiments" class="section">
+      <div class="section-title">
+        <p class="eyebrow">Experiment Portal</p>
+        <h2>实验入口</h2>
+      </div>
+      <div class="experiment-grid">
+        <article class="experiment-card active-card">
+          <span class="status online">已开放</span>
+          <h3>分光计的调整与使用</h3>
+          <p>反射法测三棱镜顶角，包含望远镜、载物台、游标读数和结果分析。</p>
+          <button class="primary-btn small" data-scroll="#spectrometer">进入实验</button>
+        </article>
+        <article class="experiment-card">
+          <span class="status planning">规划中</span>
+          <h3>迈克耳孙干涉实验</h3>
+          <p>后续将扩展干涉条纹观察、读数与波长计算。</p>
+          <button class="disabled-btn" disabled>暂未开放</button>
+        </article>
+        <article class="experiment-card">
+          <span class="status planning">规划中</span>
+          <h3>霍尔效应实验</h3>
+          <p>后续将扩展磁场、电流、电压调节与材料参数计算。</p>
+          <button class="disabled-btn" disabled>暂未开放</button>
+        </article>
+        <article class="experiment-card">
+          <span class="status planning">规划中</span>
+          <h3>光电效应实验</h3>
+          <p>后续将扩展伏安特性曲线、截止电压和普朗克常量测量。</p>
+          <button class="disabled-btn" disabled>暂未开放</button>
+        </article>
+      </div>
+    </section>
+
+    <section id="spectrometer" class="section lab-section">
+      <div class="section-title">
+        <p class="eyebrow">Spectrometer Module</p>
+        <h2>分光计实验主区域</h2>
+      </div>
+
+      <div class="lab-layout">
+        <aside class="steps-panel">
+          <h3>实验步骤</h3>
+          <button class="step-item active" data-step="0"><span>01</span>认识仪器结构</button>
+          <button class="step-item" data-step="1"><span>02</span>调节望远镜</button>
+          <button class="step-item" data-step="2"><span>03</span>放置三棱镜</button>
+          <button class="step-item" data-step="3"><span>04</span>记录两位置读数</button>
+          <button class="step-item" data-step="4"><span>05</span>计算顶角与分析</button>
+          <p id="stepHint" class="step-hint">观察平行光管、望远镜、载物台、刻度盘和三棱镜的相对位置。</p>
+        </aside>
+
+        <div class="instrument-stack">
+          <div class="canvas-card instrument-card">
+            <div class="panel-heading">
+              <h3>虚拟分光计仪器区</h3>
+              <span id="alignmentBadge" class="badge">调节中</span>
+            </div>
+            <canvas id="instrumentCanvas" width="860" height="520"></canvas>
+          </div>
+
+          <div class="canvas-card view-card">
+            <div class="panel-heading">
+              <h3>视场观察窗口</h3>
+              <span id="viewStatus" class="badge">反射像未居中</span>
+            </div>
+            <canvas id="viewCanvas" width="860" height="260"></canvas>
+          </div>
+        </div>
+
+        <aside class="control-panel">
+          <h3>操作面板</h3>
+
+          <label class="control-group">
+            <span>望远镜角度</span>
+            <input id="telescopeAngle" type="range" min="0" max="360" step="0.1" value="65" />
+          </label>
+          <div class="readout-line">
+            <span>当前值</span>
+            <strong id="telescopeValue">65.00°</strong>
+          </div>
+
+          <label class="control-group">
+            <span>载物台角度</span>
+            <input id="stageAngle" type="range" min="0" max="360" step="0.1" value="35" />
+          </label>
+          <div class="readout-line">
+            <span>当前值</span>
+            <strong id="stageValue">35.00°</strong>
+          </div>
+
+          <label class="control-group">
+            <span>公式模式</span>
+            <select id="formulaMode">
+              <option value="small-angle">small-angle：较小夹角</option>
+              <option value="supplement-angle">supplement-angle：补角预留</option>
+            </select>
+          </label>
+
+          <div class="readout-box">
+            <div><span>左游标 L</span><strong id="leftReading">0.00°</strong></div>
+            <div><span>右游标 R</span><strong id="rightReading">180.00°</strong></div>
+          </div>
+
+          <div class="button-grid">
+            <button id="recordFirst" class="primary-btn">记录第一位置 L1、R1</button>
+            <button id="recordSecond" class="primary-btn">记录第二位置 L2、R2</button>
+            <button id="addMeasurement" class="ghost-btn">新增一组测量</button>
+            <button id="calculateBtn" class="ghost-btn">计算结果</button>
+            <button id="resetBtn" class="danger-btn">清空数据 / 重置实验</button>
+          </div>
+        </aside>
+      </div>
+
+      <div class="data-area">
+        <section class="data-panel">
+          <div class="panel-heading">
+            <h3>数据记录表</h3>
+            <span id="rowCount" class="muted">0 组数据</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>组别</th>
+                  <th>L1</th>
+                  <th>R1</th>
+                  <th>L2</th>
+                  <th>R2</th>
+                  <th>ΔL</th>
+                  <th>ΔR</th>
+                  <th>φ</th>
+                  <th>A</th>
+                </tr>
+              </thead>
+              <tbody id="dataTable"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="result-panel">
+          <h3>结果分析</h3>
+          <div id="resultContent" class="result-content">
+            暂无计算结果。请记录第一位置和第二位置后点击“计算结果”。
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section id="project" class="section project-section">
+      <div class="section-title">
+        <p class="eyebrow">Project Showcase</p>
+        <h2>项目展示</h2>
+      </div>
+      <div class="project-grid">
+        <article>
+          <h3>项目背景</h3>
+          <p>面向大学物理实验课前预习、课堂辅助和答辩演示，降低仪器理解门槛，提升实验流程可视化程度。</p>
+        </article>
+        <article>
+          <h3>技术路线</h3>
+          <p>第一版采用 HTML、CSS、JavaScript 与 Canvas 实现，后续可逐步替换为 Three.js 精细模型。</p>
+        </article>
+        <article>
+          <h3>第一阶段成果</h3>
+          <p>完成分光计模块的仪器示意、视场反馈、游标读数、多组数据记录、顶角计算与误差分析。</p>
+        </article>
+        <article>
+          <h3>后续扩展方向</h3>
+          <p>扩展干涉、光电、力热电磁实验模块，加入实验报告导出、过程评分和学习轨迹记录。</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>物理实验虚拟仿真平台 MVP</span>
+    <span>分光计反射法测三棱镜顶角</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
